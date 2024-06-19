@@ -67,7 +67,7 @@ func (s *ClientService) FindLead(
 
 	// sort clients by priority desc
 	slices.SortFunc(availableClientsWithMatchingTime, func(l, r *models.Client) int {
-		return cmp.Compare(l.Priority, r.Priority)
+		return cmp.Compare(l.Priority, r.Priority) * -1
 	})
 
 	// sort client by remaining lead count asc

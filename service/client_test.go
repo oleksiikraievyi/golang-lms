@@ -43,64 +43,85 @@ func TestFindLead(t *testing.T) {
 			startTime: time.Now().UTC(),
 			endTime:   time.Now().UTC().Add(time.Hour),
 		},
-		// {
-		// 	name: "find client with LeadCapacity not exhausted, based on priority, return client2",
-		// 	clients: []*models.Client{
-		// 		{
-		// 			Name:         "client1",
-		// 			WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
-		// 			Priority:     1,
-		// 			LeadCapacity: 3,
-		// 			LeadCount:    0,
-		// 		},
-		// 		{
-		// 			Name:         "client2",
-		// 			WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
-		// 			Priority:     2,
-		// 			LeadCapacity: 3,
-		// 			LeadCount:    0,
-		// 		},
-		// 		{
-		// 			Name:         "client3",
-		// 			WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
-		// 			Priority:     2,
-		// 			LeadCapacity: 1,
-		// 			LeadCount:    0,
-		// 		},
-		// 	},
-		// 	startTime:          time.Now().UTC(),
-		// 	endTime:            time.Now().UTC().Add(time.Hour),
-		// 	expectedClientName: "client2",
-		// },
-		// {
-		// 	name: "find client with LeadCapacity not exhausted, based on lead capacity, return client1",
-		// 	clients: []*models.Client{
-		// 		{
-		// 			Name:         "client1",
-		// 			WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
-		// 			Priority:     2,
-		// 			LeadCapacity: 3,
-		// 			LeadCount:    0,
-		// 		},
-		// 		{
-		// 			Name:         "client2",
-		// 			WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
-		// 			Priority:     2,
-		// 			LeadCapacity: 2,
-		// 			LeadCount:    1,
-		// 		},
-		// 		{
-		// 			Name:         "client3",
-		// 			WorkingHours: models.WorkingHours{Start: time.Now().AddDate(0, -2, 0).UTC(), End: time.Now().UTC().Add(time.Hour)},
-		// 			Priority:     2,
-		// 			LeadCapacity: 2,
-		// 			LeadCount:    2,
-		// 		},
-		// 	},
-		// 	startTime:          time.Now().UTC(),
-		// 	endTime:            time.Now().UTC().Add(time.Hour),
-		// 	expectedClientName: "client1",
-		// },
+		{
+			name: "all clients working time not matching, return nil",
+			clients: []*models.Client{
+				{
+					Name:         "client1",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     1,
+					LeadCapacity: 1,
+					LeadCount:    1,
+				},
+				{
+					Name:         "client2",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     1,
+					LeadCapacity: 3,
+					LeadCount:    3,
+				},
+			},
+			startTime: time.Now().UTC().Add(-time.Duration(time.Now().Year())),
+			endTime:   time.Now().UTC(),
+		},
+		{
+			name: "find client with LeadCapacity not exhausted, based on priority, return client2",
+			clients: []*models.Client{
+				{
+					Name:         "client1",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     1,
+					LeadCapacity: 3,
+					LeadCount:    0,
+				},
+				{
+					Name:         "client2",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     2,
+					LeadCapacity: 3,
+					LeadCount:    0,
+				},
+				{
+					Name:         "client3",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     2,
+					LeadCapacity: 1,
+					LeadCount:    0,
+				},
+			},
+			startTime:          time.Now().UTC(),
+			endTime:            time.Now().UTC().Add(time.Hour),
+			expectedClientName: "client2",
+		},
+		{
+			name: "find client with LeadCapacity not exhausted, based on lead capacity, return client1",
+			clients: []*models.Client{
+				{
+					Name:         "client1",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     2,
+					LeadCapacity: 3,
+					LeadCount:    0,
+				},
+				{
+					Name:         "client2",
+					WorkingHours: models.WorkingHours{Start: time.Now().UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     2,
+					LeadCapacity: 2,
+					LeadCount:    1,
+				},
+				{
+					Name:         "client3",
+					WorkingHours: models.WorkingHours{Start: time.Now().AddDate(0, -2, 0).UTC(), End: time.Now().UTC().Add(time.Hour)},
+					Priority:     2,
+					LeadCapacity: 2,
+					LeadCount:    2,
+				},
+			},
+			startTime:          time.Now().UTC(),
+			endTime:            time.Now().UTC().Add(time.Hour),
+			expectedClientName: "client1",
+		},
 	}
 
 	for _, testCase := range testCases {
