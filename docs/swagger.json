@@ -1,0 +1,22 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/clients": {
+            "get": {
+                "description": "Returns all clients",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all clients",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}
