@@ -1,0 +1,18 @@
+# os generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# logs #
+######################
+*.log
+
+# sensitive data #
+.gitconfig
+
+# generated 
+lms
+docs
+
+# ide files
+.vscode
