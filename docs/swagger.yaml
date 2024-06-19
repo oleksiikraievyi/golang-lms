@@ -1,3 +1,53 @@
+definitions:
+  models.Client:
+    properties:
+      id:
+        type: integer
+      lead_capacity:
+        type: integer
+      lead_count:
+        type: integer
+      name:
+        type: string
+      priority:
+        type: integer
+      working_hours:
+        $ref: '#/definitions/models.WorkingHours'
+    required:
+    - lead_capacity
+    - lead_count
+    - name
+    - priority
+    - working_hours
+    type: object
+  models.CreateClientRequest:
+    properties:
+      lead_capacity:
+        type: integer
+      name:
+        type: string
+      priority:
+        type: integer
+      working_hours:
+        $ref: '#/definitions/models.WorkingHours'
+    required:
+    - lead_capacity
+    - name
+    - priority
+    - working_hours
+    type: object
+  models.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  models.WorkingHours:
+    properties:
+      end:
+        type: string
+      start:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -10,4 +60,61 @@ paths:
         "200":
           description: OK
       summary: Get all clients
+    post:
+      description: Create client
+      parameters:
+      - description: Client data to be created
+        in: body
+        name: Client
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateClientRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Client'
+        "400":
+          description: Invalid request provided
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Create client
+  /clients/{id}:
+    get:
+      description: Get client by id
+      parameters:
+      - description: id of client
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Client'
+      summary: Get client by id
+  /lead:
+    get:
+      description: Assigns available lead to client
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Client object
+          schema:
+            $ref: '#/definitions/models.Client'
+        "400":
+          description: Invalid request provided
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Client not found
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Assigns available lead to client
 swagger: "2.0"

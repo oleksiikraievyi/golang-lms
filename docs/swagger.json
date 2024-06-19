@@ -16,6 +16,167 @@
                         "description": "OK"
                     }
                 }
+            },
+            "post": {
+                "description": "Create client",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create client",
+                "parameters": [
+                    {
+                        "description": "Client data to be created",
+                        "name": "Client",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateClientRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Client"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request provided",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/clients/{id}": {
+            "get": {
+                "description": "Get client by id",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get client by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id of client",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Client"
+                        }
+                    }
+                }
+            }
+        },
+        "/lead": {
+            "get": {
+                "description": "Assigns available lead to client",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Assigns available lead to client",
+                "responses": {
+                    "200": {
+                        "description": "Client object",
+                        "schema": {
+                            "$ref": "#/definitions/models.Client"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request provided",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Client not found",
+                        "schema": {
+                            "$ref": "#/definitions/models.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Client": {
+            "type": "object",
+            "required": [
+                "lead_capacity",
+                "lead_count",
+                "name",
+                "priority",
+                "working_hours"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "lead_capacity": {
+                    "type": "integer"
+                },
+                "lead_count": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "working_hours": {
+                    "$ref": "#/definitions/models.WorkingHours"
+                }
+            }
+        },
+        "models.CreateClientRequest": {
+            "type": "object",
+            "required": [
+                "lead_capacity",
+                "name",
+                "priority",
+                "working_hours"
+            ],
+            "properties": {
+                "lead_capacity": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "working_hours": {
+                    "$ref": "#/definitions/models.WorkingHours"
+                }
+            }
+        },
+        "models.Error": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.WorkingHours": {
+            "type": "object",
+            "properties": {
+                "end": {
+                    "type": "string"
+                },
+                "start": {
+                    "type": "string"
+                }
             }
         }
     }

@@ -13,3 +13,7 @@ type AssignLeadRequest struct {
 	MeetingStartTime time.Time `json:"meeting_start_time" binding:"required"`
 	MeetingEndTime   time.Time `json:"meeting_end_time" binding:"required"`
 }
+
+type Error struct {
+	Error string `json:"error"`
+}
